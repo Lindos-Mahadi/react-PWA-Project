@@ -15,12 +15,18 @@ this.addEventListener("install", (event) =>{
     )
 })
 this.addEventListener("fetch",(event)=>{
-    event.respondWith(
-        caches.match(event.request).then((result) =>{
-            if(result)
-            {
-                return result
-            }
-        })
-    )
+    if(!navigator.online)
+    {
+        event.respondWith(
+            caches.match(event.request).then((result) =>{
+                if(result)
+                {
+                    return result
+                }
+                let requestUrl = event.request.clone();
+                return fetch(requestUrl)
+            })
+        )
+    }
+    
 })

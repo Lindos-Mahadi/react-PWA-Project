@@ -9,7 +9,10 @@ const Users = () =>{
             response.json().then((result) =>{
                 console.warn("result", result);
                 setData(result);
+                localStorage.setItem("users", JSON.stringify(result))
             })
+        }).catch(err =>{
+            alert("catch block");
         })
     },[])
     // fetch('https://jsonplaceholder.typicode.com/users')
