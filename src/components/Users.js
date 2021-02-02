@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 const Users = () =>{
 
     const [data, setData] = useState([])
+    const [mode, setMode] = useState([])
     useEffect(()=>{
         let url = "https://jsonplaceholder.typicode.com/users";
         fetch(url).then((response)=>{
@@ -12,28 +13,30 @@ const Users = () =>{
                 localStorage.setItem("users", JSON.stringify(result))
             })
         }).catch(err =>{
-            alert("catch block");
+            let collection = localStorage.getItem("users");
+            setData(JSON.parse(collection))
+            setMode("offline")
+            // alert("catch block");
         })
     },[])
-    // fetch('https://jsonplaceholder.typicode.com/users')
-    // .then(response => response.json())
-    // .then(json => console.log(json))
 
     return (
         <React.Fragment>
             <div className="container">
-                <div className="row">
-                    <div className="col-6 mx-auto">
-                        <h1>I am from Users</h1>
+                {
+                    mode === 'offline'?
+                    <div class="alert alert-warning" role="alert">
+                        <p className="text-center">Your are in offline mode or some issue with internet connection !!!</p>
                     </div>
-                </div>
+                    : null
+                }
                 <table className="table striped bordered hover">
-                    <thead className="thead-dark">
-                        <tr>
+                    <thead >
+                        <tr className="thead-dark">
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Address</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
                         </tr>
                     </thead>
                     <tbody>
